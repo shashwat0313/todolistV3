@@ -1,0 +1,66 @@
+<%- include('header') %>
+
+<div class="box" id="heading">
+  <h1>Manage Lists</h1>
+</div>
+
+<div class="box listContainer" style="height:400px; padding-top: 8px;">
+
+  <table style="width:100%; font-size: large;">
+    <% for( let index = 0; index < ItemArray.length; index++ ) { %>
+
+    <tr style="height: 1rem;">
+      <td style="font-size: x-large;">
+        <%= ItemArray[index].ListName %>
+      </td>
+      <td style="text-align: right; padding-right: 0.8rem;">
+        <form action="/deletelist" method="post">
+          <button name="deletename" type="submit" style="border-radius: 5%; width: auto; font-size: large;" value="<%= ItemArray[index].ListName %>">
+            Delete
+          </button>
+          <button type="button" style="border-radius: 5%; width: auto; font-size: large;" onclick=" window.location.href = '/lists/<%= ItemArray[index].ListName %>'">
+            Access
+          </button>
+        </form>
+      </td>
+    </tr>
+
+    <% } %>
+  </table>
+
+</div>
+
+
+<div class="box addingTask" style="border-top-width: 0.2rem; border-top-color: black; border-top-style: solid;">
+  <form action="" method="get" class="item" id="listcreateform">
+
+    <input class="textbox" id='newlistname' type="text" name="task" placeholder="New List" autocomplete="off">
+    <button type="submit" name="list" onclick="document.getElementById('listcreateform').setAttribute('action', '/lists/'+document.getElementById('newlistname').value )">+</button>
+
+  </form>
+</div>
+
+
+<script>
+  let x = document.querySelector(".textbox")
+  x.addEventListener("focus", () => {
+    x.placeholder = ''
+  })
+  x.addEventListener("focusout", () => {
+    x.placeholder = 'New Task'
+  })
+  let z = document.querySelector(".listContainer")
+  z.addEventListener("mouseover", () => {
+    z.style.overflowY = 'scroll'
+  })
+  z.addEventListener("mouseout", () => {
+    z.style.overflowY = 'hidden';
+  })
+</script>
+
+<%- include('footer') %>
+
+<div style="text-align: center;">
+  <a href="/about">About</a>
+  </form>
+</div>
