@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>To Do List - v1</title>
+  <link rel="stylesheet" href="/styles.css">
+  
+</head>
+
+<body>
+  <div class="box" id="heading">
+    <h1><%=dayvalue%></h1>
+  </div>
+  <!-- <h3 >Tasks: </h3> -->
+  <form action="/checked" method="post">
+
+    <div class="box taskContainer" style="overflow-y:hidden;">
+
+      <% for( let index = 0; index < taskArray.length; index++ ) { %>
+      <div class="item">
+        <input id="itemcheckbox" type="checkbox" name="item" onchange="this.form.submit()" value="<%=taskArray[index]%>">
+        <input type="hidden" name="listName" value="<%= routeName %>">
+        <p id="itemtext">
+          <%= taskArray[index] %>
+        </p>
+      </div>
+      <% } %>
+  </form>
+  </div>
+
+  <div class="box addingTask">
+    <form class="addTaskForm" action="<%= routeName %>" method="post" class="item">
+
+      <input class="textbox" type="text" name="task" placeholder="New Task" autocomplete="off">
+      <button type="submit" name="list" value=<%=dayvalue%>>+</button>
+
+    </form>
+  </div>
+
+  
+  <div class="box manageButton" onclick=" window.location.href = '/lists' ">
+    <div class="manageButtonText">
+      Manage Lists
+    </div>
+  </div>
+
+  <script>
+    let x = document.querySelector(".textbox")
+    x.addEventListener("focus", () => {
+      x.placeholder = ''
+    })
+    x.addEventListener("focusout", () => {
+      x.placeholder = 'New Task'
+    })
+    let z = document.querySelector(".taskContainer")
+    z.addEventListener("mouseover", () => {
+      z.style.overflowY = 'scroll'
+    })
+    z.addEventListener("mouseout", () => {
+      z.style.overflowY = 'hidden';
+    })
+  </script>
+</body>
+<br>
+<%- include('footer') %>
+
+<div style="text-align: center;">
+  <a href="/about">About</a>
+  </form>
+</div>
+
+<!-- <div id="myurl">hiii</div> -->
+
+<!-- <script>
+  const divHandle = document.getElementById("myurl").innerHTML = window.location.href
+</script> -->
+
+</html>

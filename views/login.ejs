@@ -1,0 +1,74 @@
+<%- include('header') %>
+
+<div class="box" id="heading">
+  <h1>Login</h1>
+</div>
+
+<div class="box listContainer" style="height:15rem; padding-top: 8px;">
+  <div id="buttonDiv">google login button placeholder</div>
+  <!-- <form action="/accounts/login" method="post">
+    <input type="email" name="email" id="" placeholder="Email" class="inputItem textbox">
+    <br>
+    <input type="password" name="password" id="" placeholder="Password" class="inputItem textbox">
+    <br>
+    <button type="submit" class="loginButton inputItem">Sign in</button>
+  </form> -->
+</div>
+
+
+
+<%- include('footer') %>
+
+<div style="text-align: center;">
+  <a href="/about">About</a>
+  </form>
+</div>
+
+<script>
+  var isSignedIn = false; // Set this according to your authentication status
+  var clientID = '1041261791254-mbtvjmn3kep32isbfr7mn6v2fp99ibu8.apps.googleusercontent.com'; // Set your Google client ID
+
+  if(isSignedIn){
+    window.location.href = '/';
+  }
+
+  var googleScriptTag = document.createElement('script');
+  googleScriptTag.src = "https://accounts.google.com/gsi/client";
+  googleScriptTag.onload = function() {
+    console.log('google accounts script loaded');
+
+    if (!isSignedIn) {
+      window.google.accounts.id.initialize({
+        client_id: clientID,
+        callback: handleCredentialResponse,
+        ux_mode: 'redirect',
+        // login_uri: "http://localhost:3000/accounts/googlelogin/login"
+        login_uri: "https://todolistv3.azurewebsites.net/accounts/googlelogin/login"
+      });
+      window.google.accounts.id.renderButton(
+        document.getElementById("buttonDiv"),
+        {
+          theme: "filled_black",
+          size: "large",
+          text: "continue_with",
+        }
+      );
+      window.google.accounts.id.prompt();
+    }
+  };
+  document.body.appendChild(googleScriptTag);
+
+  function handleCredentialResponse(response) {
+    console.log(response);
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', "/accounts/googlelogin/googleonetap", true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.setRequestHeader('X-Requested-With', 'XmlHttpRequest');
+    xhr.onload = function () {
+      console.log("xhr response =", xhr);
+      window.location.href = xhr.responseText;
+    };
+    console.log("response=", response);
+    xhr.send('credential=' + response.credential);
+  }
+</script>

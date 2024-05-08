@@ -1,0 +1,36 @@
+<div id="authbutton"></div>
+
+<div style="color:white" id="authstatus">
+    Not Logged In
+</div>
+
+<script>
+    // this function sends a request to the backend to check for login status
+    // if logged in, then it will update div to show that the user is logged in
+    
+    // fetch("/accounts/googlelogin/test").then((res)=>{
+    //     console.log("res");
+    // })
+
+    fetch("/accounts/googlelogin/querylogin").then(
+      (res) => { 
+        console.log('res from querylogin: ' + res);
+        res.json().then(
+          (result => {
+            console.log('result of querylogin :' + JSON.stringify(result));
+            let authstatusdiv = document.getElementById('authstatus')
+            // authstatusdiv.textContent = "logged in"
+            if(result.isLoggedIn){
+                authstatusdiv.textContent = result.email;
+                authbutton.innerHTML = '<a href="/accounts/googlelogin/signout">Logout</a>';
+            } else {
+                authbutton.innerHTML = '<a href="/accounts/login">Login</a>';
+            }
+          })
+        )
+      }
+    ).catch((err)=>{
+        console.log("some error");
+    })
+
+</script>
